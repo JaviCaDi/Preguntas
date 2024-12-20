@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Preguntas{% endblock %}
+
+{% block body %}
+    <h1>Listado de Preguntas</h1>
+
+    {# Botón para agregar nueva pregunta #}
+    <div class="mb-3">
+        <a href="{{ path('admin_pregunta_new') }}" class="btn btn-success">Agregar Nueva Pregunta</a>
+    </div>
+
+    {# Tabla para mostrar preguntas paginadas #}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Enunciado</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pregunta in preguntas %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ pregunta.enunciado }}</td>
+                    <td>{{ pregunta.fechaInicio ? pregunta.fechaInicio|date('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ pregunta.fechaFin ? pregunta.fechaFin|date('d/m/Y') : 'Sin fecha de fin' }}</td>
+                    <td>
+                        <a href="{{ path('admin_pregunta_show', { id: pregunta.id }) }}" class="btn btn-info btn-sm">Ver</a>
+                        <a href="{{ path('admin_pregunta_edit', { id: pregunta.id }) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form method="post" action="{{ path('admin_pregunta_delete', { id: pregunta.id }) }}" style="display:inline-block;" onsubmit="return confirm('¿Seguro que deseas eliminar esta pregunta?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ pregunta.id) }}">
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No se encontraron preguntas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {# Paginación #}
+    <div class="pagination">
+        {{ knp_pagination_render(preguntas) }}
+    </div>
+{% endblock %}

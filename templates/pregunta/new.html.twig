@@ -1,0 +1,36 @@
+{# templates/pregunta/nueva.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Pregunta{% endblock %}
+
+{% block body %}
+    <h1>Crear Nueva Pregunta</h1>
+
+    {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.enunciado) }}
+            {{ form_widget(form.enunciado) }}
+            {{ form_errors(form.enunciado) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.fechaInicio) }}
+            {{ form_widget(form.fechaInicio) }}
+            {{ form_errors(form.fechaInicio) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.fechaFin) }}
+            {{ form_widget(form.fechaFin) }}
+            {{ form_errors(form.fechaFin) }}
+        </div>
+
+        <div class="mb-3">
+            <h4>Respuestas</h4>
+            {{ form_widget(form.respuestas) }}
+        </div>
+
+        <button class="btn btn-primary" type="submit">Guardar</button>
+    {{ form_end(form) }}
+{% endblock %}
